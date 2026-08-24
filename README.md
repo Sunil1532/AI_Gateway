@@ -2,7 +2,7 @@
 
 A backend proxy that sits between applications and AI model providers. Applications change one line — the base URL — and keep their existing SDK. Every request then passes through authentication, budget enforcement, rate limiting, caching, and model routing, with per-request cost attribution written to MongoDB.
 
-**Node.js · Express 5 · MongoDB · Redis · Docker**
+**Node.js · Express 5 · MongoDB · Redis · **
 
 ---
 
