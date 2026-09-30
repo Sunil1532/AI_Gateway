@@ -1,0 +1,37 @@
+services:
+  # 1. Your AI Gateway Application
+  gateway_app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount your local src folder into the container's /app/src folder
+      - ./src:/app/src
+    env_file:
+      - .env # Pulls your API keys directly into the container
+    environment:
+      # Matches your config.js expectation using the Docker service name 'redis'
+      - REDIS_URL=redis://redis:6379
+      # Points Mongoose to the MongoDB Docker container
+      - MONGO_URI=mongodb://mongodb:27017/ai_gateway
+    depends_on:
+      - mongodb
+      - redis
+
+  # 2. MongoDB Database Container
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  # 3. Redis Cache Container
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+# Persistent storage so your MongoDB data survives restarts
+volumes:
+  mongo-data:
